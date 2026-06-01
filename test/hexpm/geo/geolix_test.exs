@@ -10,7 +10,7 @@ defmodule Hexpm.Geo.GeolixTest do
     end
 
     test "falls back to the english name when :name is absent" do
-      result = %{country: %{iso_code: "US", names: %{"en" => "United States"}}}
+      result = %{country: %{iso_code: "US", names: %{en: "United States"}}}
       assert Geolix.parse_result(result) == %{iso_code: "US", name: "United States"}
     end
 

@@ -25,7 +25,7 @@ defmodule Hexpm.Geo.Geolix do
 
   defp country_name(country, iso) do
     Map.get(country, :name) ||
-      get_in(Map.get(country, :names) || %{}, ["en"]) ||
+      get_in(Map.get(country, :names) || %{}, [:en]) ||
       iso
   end
 end
