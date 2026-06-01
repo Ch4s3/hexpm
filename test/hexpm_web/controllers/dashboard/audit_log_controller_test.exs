@@ -18,6 +18,18 @@ defmodule HexpmWeb.Dashboard.AuditLogControllerTest do
       assert html_response(conn, :ok) =~ "Recent Activities"
     end
 
+    test "shows MaxMind attribution for location data" do
+      user = insert(:user)
+
+      response =
+        build_conn()
+        |> test_login(user)
+        |> get("/dashboard/audit-logs")
+        |> html_response(:ok)
+
+      assert response =~ "MaxMind"
+    end
+
     test "shows the most recent audit logs for current user" do
       user = insert(:user)
 
