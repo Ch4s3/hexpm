@@ -70,7 +70,8 @@ defmodule HexpmWeb.Dashboard.AuditLog.Components.AuditLogCard do
   defp timeline_item(assigns) do
     icon = icon_for_action(assigns.log.action)
     description = humanize_action(assigns.log)
-    assigns = assign(assigns, icon: icon, description: description)
+    geo = Hexpm.Geo.lookup_country(assigns.log.remote_ip)
+    assigns = assign(assigns, icon: icon, description: description, geo: geo)
 
     ~H"""
     <div class="flex gap-4 group">
@@ -96,6 +97,11 @@ defmodule HexpmWeb.Dashboard.AuditLog.Components.AuditLogCard do
           title={ViewHelpers.pretty_datetime(@log.inserted_at)}
         >
           {ViewHelpers.pretty_date(@log.inserted_at, :short)}
+          <%= if @geo do %>
+            <span class="ml-2 text-grey-400 dark:text-grey-300">
+              {Hexpm.Geo.flag_emoji(@geo.iso_code)} {@geo.name}
+            </span>
+          <% end %>
         </p>
       </div>
     </div>
