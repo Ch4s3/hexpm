@@ -1,6 +1,8 @@
 defmodule HexpmWeb.Dashboard.AuditLogControllerTest do
   use HexpmWeb.ConnCase, async: true
 
+  setup :mock_geo
+
   describe "GET /dashboard/audit-logs" do
     test "requires login" do
       conn = get(build_conn(), "/dashboard/audit-logs")
@@ -16,6 +18,18 @@ defmodule HexpmWeb.Dashboard.AuditLogControllerTest do
         |> get("/dashboard/audit-logs")
 
       assert html_response(conn, :ok) =~ "Recent Activities"
+    end
+
+    test "shows DB-IP attribution for location data" do
+      user = insert(:user)
+
+      response =
+        build_conn()
+        |> test_login(user)
+        |> get("/dashboard/audit-logs")
+        |> html_response(:ok)
+
+      assert response =~ "DB-IP"
     end
 
     test "shows the most recent audit logs for current user" do

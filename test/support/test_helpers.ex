@@ -65,6 +65,11 @@ defmodule Hexpm.TestHelpers do
     Mox.stub(Hexpm.Pwned.Mock, :password_breached?, fn _password -> false end)
   end
 
+  def mock_geo(_context \\ %{}) do
+    Mox.stub(Hexpm.Geo.Mock, :lookup_country, fn _ip -> nil end)
+    :ok
+  end
+
   defp requirements_meta(list) do
     Enum.map(list, fn req ->
       req

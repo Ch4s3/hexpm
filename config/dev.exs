@@ -25,7 +25,11 @@ config :hexpm,
   billing_url: "http://localhost:4001",
   billing_key: "hex_billing_key",
   dashboard_user: "hex_user",
-  dashboard_password: "hex_password"
+  dashboard_password: "hex_password",
+  geo_local_lookups: %{
+    "127.0.0.1" => %{iso_code: "US", name: "United States"},
+    "::1" => %{iso_code: "US", name: "United States"}
+  }
 
 config :hexpm, HexpmWeb.Endpoint,
   http: [port: 4000],

@@ -73,4 +73,18 @@ if config_env() == :prod do
   config :ueberauth, Ueberauth.Strategy.Github.OAuth,
     client_id: System.fetch_env!("HEXPM_GITHUB_CLIENT_ID"),
     client_secret: System.fetch_env!("HEXPM_GITHUB_CLIENT_SECRET")
+
+  # Fail-soft: only register the geo database when a path is provided. If the
+  # env var is unset the app still boots and audit-log location lookups return
+  # nil (no flags shown) until the database is provisioned.
+  if geoip_country_path = System.get_env("HEXPM_GEOIP_COUNTRY_PATH") do
+    config :geolix,
+      databases: [
+        %{
+          id: :country,
+          adapter: Geolix.Adapter.MMDB2,
+          source: geoip_country_path
+        }
+      ]
+  end
 end
