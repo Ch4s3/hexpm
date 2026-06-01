@@ -72,4 +72,13 @@ if config_env() == :prod do
   config :ueberauth, Ueberauth.Strategy.Github.OAuth,
     client_id: System.fetch_env!("HEXPM_GITHUB_CLIENT_ID"),
     client_secret: System.fetch_env!("HEXPM_GITHUB_CLIENT_SECRET")
+
+  config :geolix,
+    databases: [
+      %{
+        id: :country,
+        adapter: Geolix.Adapter.MMDB2,
+        source: System.fetch_env!("HEXPM_GEOLITE2_COUNTRY_PATH")
+      }
+    ]
 end
